@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -54,7 +55,7 @@ namespace GraphQL.Server.Transports.AspNetCore
 
         private bool IsGraphQLRequest(HttpContext context)
         {
-            return HttpMethods.IsPost(context.Request.Method) && context.Request.Path.StartsWithSegments(_options.Path);
+            return (HttpMethods.IsPost(context.Request.Method) || HttpMethods.IsGet(context.Request.Method)) && context.Request.Path.StartsWithSegments(_options.Path);
         }
 
         private async Task ExecuteAsync(HttpContext context, ISchema schema)
@@ -158,7 +159,14 @@ namespace GraphQL.Server.Transports.AspNetCore
         private static void ExtractGraphQLRequestFromQueryString(IQueryCollection qs, GraphQLRequest gqlRequest)
         {
             gqlRequest.Query = qs.TryGetValue(GraphQLRequest.QueryKey, out StringValues queryValues) ? queryValues[0] : null;
-            gqlRequest.Variables = qs.TryGetValue(GraphQLRequest.VariablesKey, out StringValues variablesValues) ? JObject.Parse(variablesValues[0]) : null;
+
+            qs.TryGetValue(GraphQLRequest.VariablesKey, out StringValues variablesValues);
+            if (!String.IsNullOrEmpty(variablesValues)) {
+                try
+                {
+                    gqlRequest.Variables = JObject.Parse(variablesValues[0]);
+                } catch { }
+            }
             gqlRequest.OperationName = qs.TryGetValue(GraphQLRequest.OperationNameKey, out StringValues operationNameValues) ? operationNameValues[0] : null;
         }
     }
