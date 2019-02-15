@@ -24,6 +24,7 @@ namespace GraphQL.Server.Ui.Playground.Internal {
                 using (var streamReader = new StreamReader(manifestResourceStream)) {
                     var builder = new StringBuilder(streamReader.ReadToEnd());
                     builder.Replace("@Model.GraphQLEndPoint", this.settings.GraphQLEndPoint);
+                    builder.Replace("@Model.PlaygroundPath", this.settings.Path);
                     playgroundCSHtml = builder.ToString();
                     return this.Render();
                 }

@@ -1,4 +1,4 @@
-<!--
+﻿<!--
  *  Copyright (c) Facebook, Inc.
  *  All rights reserved.
  *
@@ -96,25 +96,34 @@
 		function onEditOperationName(newOperationName) {
 			parameters.operationName = newOperationName;
 			updateURL();
-		}
+        }
 
-		function updateURL() {
-			var newSearch = '?' + Object.keys(parameters).filter(function (key) {
-				return Boolean(parameters[key]);
-			}).map(function (key) {
-				return encodeURIComponent(key) + '=' +
-					encodeURIComponent(parameters[key]);
-			}).join('&');
-			history.replaceState(null, null, newSearch);
-		}
+        function updateURL() {
+            var newSearch = '?' + Object.keys(parameters).filter(function (key) {
+                return Boolean(parameters[key]);
+            }).map(function (key) {
+                return encodeURIComponent(key) + '=' +
+                    encodeURIComponent(parameters[key]);
+            }).join('&');
+            history.replaceState(null, null, newSearch);
+        }
+
+        function stripGraphQLUiEndPointFromPathName(graphQlUiEndpoint) {
+            var currentPathName = window.location.pathname;
+            var regex = new RegExp(graphQlUiEndpoint + "\/*");
+            currentPathName = currentPathName.replace(regex, '');
+            return currentPathName;
+        }
+
+        var strippedCurrentPathName = stripGraphQLUiEndPointFromPathName("@Model.GraphiQLPath");
 
 		// Defines a GraphQL fetcher using the fetch API. You're not required to
 		// use fetch, and could instead implement graphQLFetcher however you like,
 		// as long as it returns a Promise or Observable.
-		function graphQLFetcher(graphQLParams) {
+        function graphQLFetcher(graphQLParams) {
 			// This example expects a GraphQL server at the path /graphql.
 			// Change this to point wherever you host your GraphQL server.
-			return fetch(window.location.protocol + "//" + window.location.host + '@Model.GraphQLEndPoint', {
+            return fetch(window.location.protocol + "//" + window.location.host + strippedCurrentPathName + '@Model.GraphQLEndPoint', {
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
@@ -134,7 +143,7 @@
 		}
 
 		// Enable Subscriptions via WebSocket
-		var subscriptionsClient = new window.SubscriptionsTransportWs.SubscriptionClient((window.location.protocol === "http:" ? "ws://" : "wss://") + window.location.host + "@Model.GraphQLEndPoint", { reconnect: true });
+		var subscriptionsClient = new window.SubscriptionsTransportWs.SubscriptionClient((window.location.protocol === "http:" ? "ws://" : "wss://") + window.location.host + strippedCurrentPathName, { reconnect: true });
     	var subscriptionsFetcher = window.GraphiQLSubscriptionsFetcher.graphQLFetcher(subscriptionsClient, graphQLFetcher);
 
 		// Render <GraphiQL /> into the body.

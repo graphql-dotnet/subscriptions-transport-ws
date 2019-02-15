@@ -31,6 +31,7 @@ namespace GraphQL.Server.Ui.Voyager.Internal
                 {
                     var builder = new StringBuilder(streamReader.ReadToEnd());
                     builder.Replace("@Model.GraphQLEndPoint", this.settings.GraphQLEndPoint);
+                    builder.Replace("@Model.VoyagerPath", this.settings.Path);
                     voyagerCSHtml = builder.ToString();
                     return this.Render();
                 }

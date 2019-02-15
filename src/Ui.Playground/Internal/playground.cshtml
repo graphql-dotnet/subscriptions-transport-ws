@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
   <meta charset=utf-8 />
@@ -47,17 +47,25 @@
     </div>
   </div>
   <script>
-    window.addEventListener('load', function (event) {
-      GraphQLPlayground.init(document.getElementById('root'),
-        {
-          setTitle: true,
-          endpoint: window.location.protocol + "//" + window.location.host + "@Model.GraphQLEndPoint",
-          subscriptionEndpoint: (window.location.protocol === "http:" ? "ws://" : "wss://") + window.location.host + "@Model.GraphQLEndPoint",
-          settings: {
-            'tracing.hideTracingResponse': false
-          }
-        });
-    })
+      window.addEventListener('load', function (event) {
+          var strippedCurrentPathName = stripGraphQLUiEndPointFromPathName("@Model.PlaygroundPath");
+
+      function updateURL() {
+			var newSearch = '?' + Object.keys(parameters).filter(function (key) {
+				return Boolean(parameters[key]);
+			}).map(function (key) {
+				return encodeURIComponent(key) + '=' +
+					encodeURIComponent(parameters[key]);
+			}).join('&');
+			history.replaceState(null, null, newSearch);
+		}
+
+      function stripGraphQLUiEndPointFromPathName(graphQlUiEndpoint) {
+          var currentPathName = window.location.pathname;
+          var regex = new RegExp(graphQlUiEndpoint + "\/*");
+          currentPathName = currentPathName.replace(regex, '');
+          return currentPathName;
+      }
   </script>
 </body>
 </html>

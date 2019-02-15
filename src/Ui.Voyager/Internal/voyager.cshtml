@@ -12,9 +12,10 @@
     <div id="voyager" style="height: 100%;">Loading...</div>
     <script>
         function introspectionProvider(introspectionQuery) {
+            var strippedCurrentPathName = stripGraphQLUiEndPointFromPathName("@Model.VoyagerPath");
             // This example expects a GraphQL server at the path /graphql.
             // Change this to point wherever you host your GraphQL server.
-            return fetch(window.location.protocol + "//" + window.location.host + "@Model.GraphQLEndPoint", {
+            return fetch(window.location.protocol + "//" + window.location.host + strippedCurrentPathName + "@Model.GraphQLEndPoint", {
                 method: 'post',
                 headers: {
                     'Accept': 'application/json',
@@ -31,6 +32,13 @@
                     return responseBody;
                 }
             });
+        }
+
+        function stripGraphQLUiEndPointFromPathName(graphQlUiEndpoint) {
+            var currentPathName = window.location.pathname;
+            var regex = new RegExp(graphQlUiEndpoint + "\/*");
+            currentPathName = currentPathName.replace(regex, '');
+            return currentPathName;
         }
 
         // Render <Voyager />

@@ -24,6 +24,7 @@ namespace GraphQL.Server.Ui.GraphiQL.Internal {
                 using (var streamReader = new StreamReader(manifestResourceStream)) {
                     var builder = new StringBuilder(streamReader.ReadToEnd());
                     builder.Replace("@Model.GraphQLEndPoint", this.settings.GraphQLEndPoint);
+                    builder.Replace("@Model.GraphiQLPath", this.settings.GraphiQLPath);
                     graphiQLCSHtml = builder.ToString();
                     return this.Render();
                 }
