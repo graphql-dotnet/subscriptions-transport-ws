@@ -1,3 +1,4 @@
+using System;
 using GraphQL.Http;
 using GraphQL.Server.Transports.Subscriptions.Abstractions;
 using System.Net.WebSockets;
@@ -25,9 +26,13 @@ namespace GraphQL.Server.Transports.WebSockets
             return _startBlock.Post(message);
         }
 
-        public Task SendAsync(OperationMessage message)
+        public async Task SendAsync(OperationMessage message)
         {
-            return _startBlock.SendAsync(message);
+            var successful = await _startBlock.SendAsync(message);
+
+            if (!successful)
+                throw new InvalidOperationException(
+                    $"Unknown error occured while trying to send operation message of id '{message.Id}'");
         }
 
         public Task Completion => _startBlock.Completion;
