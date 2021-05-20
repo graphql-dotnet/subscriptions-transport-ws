@@ -135,7 +135,16 @@ namespace GraphQL.Server.Transports.AspNetCore
             {
                 var stopwatch = ValueStopwatch.StartNew();
                 await RequestExecutingAsync(gqlRequest);
-                var result = await ExecuteRequestAsync(gqlRequest, userContext, executer, context.RequestServices, cancellationToken);
+                ExecutionResult result;
+                try
+                {
+                    result = await ExecuteRequestAsync(gqlRequest, userContext, executer, context.RequestServices, cancellationToken);
+                }
+                catch (InvalidOperationException e) //TODO: find a better way for sorting 4xx from 5xx
+                {
+                    await WriteErrorResponseAsync(httpResponse, writer, cancellationToken, e.Message);
+                    return;
+                }
 
                 await RequestExecutedAsync(new GraphQLRequestExecutionResult(gqlRequest, result, stopwatch.Elapsed));
 
@@ -151,7 +160,16 @@ namespace GraphQL.Server.Transports.AspNetCore
 
                     var stopwatch = ValueStopwatch.StartNew();
                     await RequestExecutingAsync(gqlRequestInBatch, i);
-                    var result = await ExecuteRequestAsync(gqlRequestInBatch, userContext, executer, context.RequestServices, cancellationToken);
+                    ExecutionResult result;
+                    try
+                    {
+                        result = await ExecuteRequestAsync(gqlRequestInBatch, userContext, executer, context.RequestServices, cancellationToken);
+                    }
+                    catch (InvalidOperationException e) //TODO: find a better way for sorting 4xx from 5xx
+                    {
+                        await WriteErrorResponseAsync(httpResponse, writer, cancellationToken, e.Message);
+                        return;
+                    }
 
                     await RequestExecutedAsync(new GraphQLRequestExecutionResult(gqlRequestInBatch, result, stopwatch.Elapsed, i));
 
