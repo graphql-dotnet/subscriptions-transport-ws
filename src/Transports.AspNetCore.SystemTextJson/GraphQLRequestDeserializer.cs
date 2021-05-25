@@ -50,13 +50,28 @@ namespace GraphQL.Server.Transports.AspNetCore.SystemTextJson
             switch (jsonTokenType)
             {
                 case JsonTokenType.StartObject:
-                    result.Single = ToGraphQLRequest(
-                        await JsonSerializer.DeserializeAsync<InternalGraphQLRequest>(bodyReader.AsStream(), _serializerOptions, cancellationToken));
+                    try
+                    {
+                        result.Single = ToGraphQLRequest(await JsonSerializer.DeserializeAsync<InternalGraphQLRequest>(bodyReader.AsStream(), _serializerOptions, cancellationToken));
+                    }
+                    catch (JsonException e)
+                    {
+                        result.IsSuccessful = false;
+                        result.Exception = e;
+                    }
                     return result;
                 case JsonTokenType.StartArray:
-                    result.Batch = (await JsonSerializer.DeserializeAsync<InternalGraphQLRequest[]>(bodyReader.AsStream(), _serializerOptions, cancellationToken))
-                        .Select(ToGraphQLRequest)
-                        .ToArray();
+                    try
+                    {
+                        result.Batch = (await JsonSerializer.DeserializeAsync<InternalGraphQLRequest[]>(bodyReader.AsStream(), _serializerOptions, cancellationToken))
+                            .Select(ToGraphQLRequest)
+                            .ToArray();
+                    }
+                    catch (JsonException e)
+                    {
+                        result.IsSuccessful = false;
+                        result.Exception = e;
+                    }
                     return result;
                 default:
                     result.IsSuccessful = false;

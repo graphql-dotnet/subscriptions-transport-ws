@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,7 +63,7 @@ namespace GraphQL.Server.Transports.AspNetCore
                 httpResponse.Headers["Allow"] = "GET, POST";
                 await WriteErrorResponseAsync(httpResponse, writer, cancellationToken,
                     $"Invalid HTTP method. Only GET and POST are supported. {DOCS_URL}",
-                    httpStatusCode: 405 // Method Not Allowed
+                    httpStatusCode: HttpStatusCode.MethodNotAllowed
                 );
                 return;
             }
@@ -84,7 +85,8 @@ namespace GraphQL.Server.Transports.AspNetCore
                         var deserializationResult = await _deserializer.DeserializeFromJsonBodyAsync(httpRequest, cancellationToken);
                         if (!deserializationResult.IsSuccessful)
                         {
-                            await WriteErrorResponseAsync(httpResponse, writer, cancellationToken, "Body text could not be parsed. Body text should start with '{' for normal graphql query or with '[' for batched query.");
+                            var message = deserializationResult.Exception?.Message ?? "Body text should start with '{' for normal graphql query or with '[' for batched query.";
+                            await WriteErrorResponseAsync(httpResponse, writer, cancellationToken, $"JSON body text could not be parsed. {message}");
                             return;
                         }
                         bodyGQLRequest = deserializationResult.Single;
@@ -101,7 +103,12 @@ namespace GraphQL.Server.Transports.AspNetCore
                         break;
 
                     default:
-                        await WriteErrorResponseAsync(httpResponse, writer, cancellationToken, $"Invalid 'Content-Type' header: non-supported media type. Must be of '{MediaType.JSON}', '{MediaType.GRAPH_QL}' or '{MediaType.FORM}'. {DOCS_URL}");
+                        await WriteErrorResponseAsync(
+                            httpResponse,
+                            writer,
+                            cancellationToken,
+                            $"Invalid 'Content-Type' header: non-supported media type. Must be of '{MediaType.JSON}', '{MediaType.GRAPH_QL}' or '{MediaType.FORM}'. {DOCS_URL}",
+                            HttpStatusCode.UnsupportedMediaType);
                         return;
                 }
             }
@@ -186,7 +193,7 @@ namespace GraphQL.Server.Transports.AspNetCore
         }
 
         private Task WriteErrorResponseAsync(HttpResponse httpResponse, IDocumentWriter writer, CancellationToken cancellationToken,
-            string errorMessage, int httpStatusCode = 400 /* BadRequest */)
+            string errorMessage, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
         {
             var result = new ExecutionResult
             {
@@ -197,7 +204,7 @@ namespace GraphQL.Server.Transports.AspNetCore
             };
 
             httpResponse.ContentType = "application/json";
-            httpResponse.StatusCode = httpStatusCode;
+            httpResponse.StatusCode = (int)httpStatusCode;
 
             return writer.WriteAsync(httpResponse.Body, result, cancellationToken);
         }

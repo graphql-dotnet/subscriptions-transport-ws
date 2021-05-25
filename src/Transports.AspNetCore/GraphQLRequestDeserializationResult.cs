@@ -1,3 +1,5 @@
+using System;
+
 namespace GraphQL.Server.Transports.AspNetCore
 {
     /// <summary>
@@ -23,5 +25,11 @@ namespace GraphQL.Server.Transports.AspNetCore
         /// populated if the HTTP request body contained an array of JSON objects.
         /// </summary>
         public GraphQLRequest[] Batch { get; set; }
+
+        /// <summary>
+        /// If deserialization throws an exception, it is stored here
+        /// <see cref="IsSuccessful" /> will be false in this case.
+        /// </summary>
+        public Exception Exception { get; set; }
     }
 }

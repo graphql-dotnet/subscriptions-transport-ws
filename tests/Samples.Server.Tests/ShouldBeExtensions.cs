@@ -53,6 +53,6 @@ namespace Samples.Server.Tests
             actualJson.ShouldBe(expectedJson);
         }
 
-        private static string NormalizeJson(this string json) => json.Replace("'", @"\u0027");
+        private static string NormalizeJson(this string json) => json.Replace("'", @"\u0027").Replace("\"", @"\u0022");
     }
 }

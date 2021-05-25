@@ -90,15 +90,12 @@ namespace Samples.Server.Tests
                 "Invalid HTTP method. Only GET and POST are supported. See: http://graphql.org/learn/serving-over-http/.",
             },
 
-            // POST with an invalid mime type should be a bad request
-            // I couldn't manage to hit this, asp.net core kept rejecting it too early
-
-            // POST with unsupported mime type should be a bad request
+            // POST with unsupported mime type should be a unsupported media type
             new object[]
             {
                 HttpMethod.Post,
                 new StringContent(Serializer.ToJson(new GraphQLRequest { Query = "query { __schema { queryType { name } } }" }), Encoding.UTF8, "something/unknown"),
-                HttpStatusCode.BadRequest,
+                HttpStatusCode.UnsupportedMediaType,
                 "Invalid 'Content-Type' header: non-supported media type. Must be of 'application/json', 'application/graphql' or 'application/x-www-form-urlencoded'. See: http://graphql.org/learn/serving-over-http/."
             },
 
@@ -108,8 +105,17 @@ namespace Samples.Server.Tests
                 HttpMethod.Post,
                 new StringContent("Oops", Encoding.UTF8, "application/json"),
                 HttpStatusCode.BadRequest,
-                "Body text could not be parsed. Body text should start with '{' for normal graphql query or with '[' for batched query."
-            }
+                "JSON body text could not be parsed. Body text should start with '{' for normal graphql query or with '[' for batched query."
+            },
+
+            // POST with JSON mime type that is invalid JSON should be a bad request
+            new object[]
+            {
+                HttpMethod.Post,
+                new StringContent("{oops}", Encoding.UTF8, "application/json"),
+                HttpStatusCode.BadRequest,
+                "JSON body text could not be parsed. 'o' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 0 | BytePositionInLine: 1."
+            },
         };
 
         [Theory]

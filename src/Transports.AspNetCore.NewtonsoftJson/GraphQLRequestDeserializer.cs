@@ -44,12 +44,28 @@ namespace GraphQL.Server.Transports.AspNetCore.NewtonsoftJson
                 switch (firstChar)
                 {
                     case '{':
-                        result.Single = ToGraphQLRequest(_serializer.Deserialize<InternalGraphQLRequest>(jsonReader));
+                        try
+                        {
+                            result.Single = ToGraphQLRequest(_serializer.Deserialize<InternalGraphQLRequest>(jsonReader));
+                        }
+                        catch (JsonException e)
+                        {
+                            result.IsSuccessful = false;
+                            result.Exception = e;
+                        }
                         break;
                     case '[':
-                        result.Batch = _serializer.Deserialize<InternalGraphQLRequest[]>(jsonReader)
-                            .Select(ToGraphQLRequest)
-                            .ToArray();
+                        try
+                        {
+                            result.Batch = _serializer.Deserialize<InternalGraphQLRequest[]>(jsonReader)
+                                .Select(ToGraphQLRequest)
+                                .ToArray();
+                        }
+                        catch (JsonException e)
+                        {
+                            result.IsSuccessful = false;
+                            result.Exception = e;
+                        }
                         break;
                     default:
                         result.IsSuccessful = false;
