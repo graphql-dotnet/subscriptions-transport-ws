@@ -1,3 +1,10 @@
+namespace GraphQL.Federation.Instrumentation
+{
+    public static class GraphQLHttpRequestExtensions
+    {
+        public static bool IsApolloFederatedTracingEnabled(this Microsoft.AspNetCore.Http.HttpRequest request) { }
+    }
+}
 namespace GraphQL.Server
 {
     public static class GraphQLBuilderUserContextExtensions
