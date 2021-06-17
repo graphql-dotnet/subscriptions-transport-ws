@@ -78,6 +78,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiApprovalTests", "tests\A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "All", "src\All\All.csproj", "{B39BC064-B96A-442D-89A0-79B750F88ADD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transports.AspNetCore.Tests", "tests\Transports.AspNetCore.Tests\Transports.AspNetCore.Tests.csproj", "{1857A25B-C4A3-4332-9077-3F2516AC6059}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -164,6 +166,10 @@ Global
 		{B39BC064-B96A-442D-89A0-79B750F88ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B39BC064-B96A-442D-89A0-79B750F88ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B39BC064-B96A-442D-89A0-79B750F88ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1857A25B-C4A3-4332-9077-3F2516AC6059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1857A25B-C4A3-4332-9077-3F2516AC6059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1857A25B-C4A3-4332-9077-3F2516AC6059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1857A25B-C4A3-4332-9077-3F2516AC6059}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +190,7 @@ Global
 		{C1FCE2C8-F6EF-48DA-ADD8-9159516D03DA} = {BBD07745-C962-4D2D-B302-6DA1BCC2FF43}
 		{17945A3F-4C80-43B3-BBD7-6FE0EA107799} = {592C7A03-4F0C-40C2-86F9-C7A4E03504A7}
 		{9F1A96BC-FF87-427F-8284-5A0670CA596C} = {BBD07745-C962-4D2D-B302-6DA1BCC2FF43}
+		{1857A25B-C4A3-4332-9077-3F2516AC6059} = {BBD07745-C962-4D2D-B302-6DA1BCC2FF43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3FC7FA59-E938-453C-8C4A-9D5635A9489A}

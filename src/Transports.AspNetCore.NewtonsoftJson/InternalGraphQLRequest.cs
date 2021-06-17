@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace GraphQL.Server.Transports.AspNetCore.NewtonsoftJson
 {
@@ -15,9 +14,9 @@ namespace GraphQL.Server.Transports.AspNetCore.NewtonsoftJson
         public string Query { get; set; }
 
         [JsonProperty(GraphQLRequest.VARIABLES_KEY)]
-        public JObject Variables { get; set; }
+        public Inputs Variables { get; set; }
 
         [JsonProperty(GraphQLRequest.EXTENSIONS_KEY)]
-        public JObject Extensions { get; set; }
+        public Inputs Extensions { get; set; }
     }
 }
