@@ -8,9 +8,9 @@ namespace GraphQL.Server.Ui.GraphiQL
     public class GraphiQLOptions
     {
         public GraphiQLOptions() { }
-        public Microsoft.AspNetCore.Http.PathString GraphQLEndPoint { get; set; }
+        public string GraphQLEndPoint { get; set; }
         public System.Collections.Generic.Dictionary<string, string> Headers { get; set; }
-        public Microsoft.AspNetCore.Http.PathString SubscriptionsEndPoint { get; set; }
+        public string SubscriptionsEndPoint { get; set; }
     }
 }
 namespace Microsoft.AspNetCore.Builder
