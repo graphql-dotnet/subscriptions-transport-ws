@@ -21,7 +21,7 @@ namespace GraphQL.Server.Ui.GraphiQL.Internal
         {
             if (_graphiQLCSHtml == null)
             {
-                using var manifestResourceStream = typeof(GraphiQLPageModel).Assembly.GetManifestResourceStream("GraphQL.Server.Ui.GraphiQL.Internal.graphiql.cshtml");
+                using var manifestResourceStream = _options.IndexStream();
                 using var streamReader = new StreamReader(manifestResourceStream);
 
                 var headers = new Dictionary<string, object>
@@ -39,7 +39,11 @@ namespace GraphQL.Server.Ui.GraphiQL.Internal
                 var builder = new StringBuilder(streamReader.ReadToEnd())
                     .Replace("@Model.GraphQLEndPoint", _options.GraphQLEndPoint)
                     .Replace("@Model.SubscriptionsEndPoint", _options.SubscriptionsEndPoint)
-                    .Replace("@Model.Headers", JsonSerializer.Serialize<object>(headers));
+                    .Replace("@Model.Headers", JsonSerializer.Serialize<object>(headers))
+                    .Replace("@Model.AdditionalData", JsonSerializer.Serialize(_options.AdditionalData, new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    }));
 
                 _graphiQLCSHtml = builder.ToString();
             }

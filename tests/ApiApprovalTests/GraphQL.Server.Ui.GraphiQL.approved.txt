@@ -8,8 +8,10 @@ namespace GraphQL.Server.Ui.GraphiQL
     public class GraphiQLOptions
     {
         public GraphiQLOptions() { }
+        public object AdditionalData { get; set; }
         public Microsoft.AspNetCore.Http.PathString GraphQLEndPoint { get; set; }
         public System.Collections.Generic.Dictionary<string, string> Headers { get; set; }
+        public System.Func<System.IO.Stream> IndexStream { get; set; }
         public Microsoft.AspNetCore.Http.PathString SubscriptionsEndPoint { get; set; }
     }
 }
