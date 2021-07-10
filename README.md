@@ -80,7 +80,7 @@ For more information on how to migrate from `Newtonsoft.Json` to `System.Text.Js
 For the WebSocket subscription protocol (depends on above) middleware:
 
 ```
-> dotnet add package GraphQL.Server.Transports.WebSockets
+> dotnet add package GraphQL.Server.Transports.Subscriptions.WebSockets
 ```
 
 #### 3. Authorization
