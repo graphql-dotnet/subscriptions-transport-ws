@@ -17,8 +17,8 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NSubstitute" Version="4.2.2" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.13" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.4" Condition="'$(TargetFramework)' == 'net5'" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.8" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.8" Condition="'$(TargetFramework)' == 'net5'" />
   </ItemGroup>
 
 </Project>
