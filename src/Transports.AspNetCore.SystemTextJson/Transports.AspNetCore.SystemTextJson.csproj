@@ -10,7 +10,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\Transports.AspNetCore\Transports.AspNetCore.csproj" />
     <ProjectReference Include="..\Transports.Subscriptions.Abstractions\Transports.Subscriptions.Abstractions.csproj" />
-    <PackageReference Include="GraphQL.SystemTextJson" Version="4.1.0" />
+    <PackageReference Include="GraphQL.SystemTextJson" Version="4.5.0" />
     <PackageReference Include="System.IO.Pipelines" Version="5.0.1" />
   </ItemGroup>
 
