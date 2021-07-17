@@ -22,7 +22,7 @@
     <ProjectReference Include="..\Ui.Voyager\Ui.Voyager.csproj" />
 
     <PackageReference Include="GraphQL.MemoryCache" Version="4.1.0" />
-    <PackageReference Include="GraphQL.MicrosoftDI" Version="4.1.0" />
+    <PackageReference Include="GraphQL.MicrosoftDI" Version="4.5.0" />
     <PackageReference Include="GraphQL.SystemReactive" Version="4.1.0" />
   </ItemGroup>
 
