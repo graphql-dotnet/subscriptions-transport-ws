@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Transports.AspNetCore\Transports.AspNetCore.csproj" />
-    <PackageReference Include="GraphQL.NewtonsoftJson" Version="4.1.0" />
+    <PackageReference Include="GraphQL.NewtonsoftJson" Version="4.5.0" />
   </ItemGroup>
 
 </Project>
