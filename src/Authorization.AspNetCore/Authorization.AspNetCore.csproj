@@ -9,6 +9,7 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\Core\Core.csproj" />
+    <PackageReference Include="GraphQL.MicrosoftDI" Version="4.6.0-preview-326" />
   </ItemGroup>
 
 </Project>

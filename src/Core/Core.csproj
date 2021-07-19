@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GraphQL" Version="4.1.0" />
-    <PackageReference Include="GraphQL.DataLoader" Version="4.1.0" />
+    <PackageReference Include="GraphQL" Version="4.6.0-preview-326" />
+    <PackageReference Include="GraphQL.DataLoader" Version="4.6.0-preview-326" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.0" />
   </ItemGroup>
 

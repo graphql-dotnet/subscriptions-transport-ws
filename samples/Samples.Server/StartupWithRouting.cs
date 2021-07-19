@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using GraphQL.DataLoader;
+using GraphQL.Execution;
 using GraphQL.Samples.Schemas.Chat;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Altair;
@@ -29,22 +31,24 @@ namespace GraphQL.Samples.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddRouting()
-                .AddSingleton<IChat, Chat>()
-                .AddSingleton<ChatSchema>()
-                .AddGraphQL((options, provider) =>
+            services.AddRouting();
+            services.AddSingleton<IChat, Chat>();
+
+            MicrosoftDI.GraphQLBuilderExtensions.AddGraphQL(services)
+                .AddSchema<ChatSchema>()
+                .ConfigureExecution(options =>
                 {
                     options.EnableMetrics = Environment.IsDevelopment();
-                    var logger = provider.GetRequiredService<ILogger<Startup>>();
+                    var logger = options.RequestServices.GetRequiredService<ILogger<Startup>>();
                     options.UnhandledExceptionDelegate = ctx => logger.LogError("{Error} occurred", ctx.OriginalException.Message);
                 })
                 .AddDefaultEndpointSelectorPolicy()
                 .AddSystemTextJson(deserializerSettings => { }, serializerSettings => { })
-                .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = Environment.IsDevelopment())
+                .AddErrorInfoProvider<CustomErrorInfoProvider>()
+                .Configure<ErrorInfoProviderOptions>(opt => opt.ExposeExceptionStackTrace = Environment.IsDevelopment())
                 .AddWebSockets()
                 .AddDataLoader()
-                .AddGraphTypes(typeof(ChatSchema));
+                .AddGraphTypes(typeof(ChatSchema).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,6 +2,8 @@ namespace GraphQL.Server
 {
     public static class GraphQLBuilderSystemTextJsonExtensions
     {
+        public static GraphQL.DI.IGraphQLBuilder AddSystemTextJson(this GraphQL.DI.IGraphQLBuilder builder, System.Action<System.Text.Json.JsonSerializerOptions> configureDeserializerSettings = null, System.Action<System.Text.Json.JsonSerializerOptions> configureSerializerSettings = null) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddSystemTextJson(this GraphQL.Server.IGraphQLBuilder builder, System.Action<System.Text.Json.JsonSerializerOptions> configureDeserializerSettings = null, System.Action<System.Text.Json.JsonSerializerOptions> configureSerializerSettings = null) { }
     }
 }

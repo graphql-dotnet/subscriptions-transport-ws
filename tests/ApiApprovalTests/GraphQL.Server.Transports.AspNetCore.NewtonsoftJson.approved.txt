@@ -2,6 +2,8 @@ namespace GraphQL.Server
 {
     public static class GraphQLBuilderNewtonsoftJsonExtensions
     {
+        public static GraphQL.DI.IGraphQLBuilder AddNewtonsoftJson(this GraphQL.DI.IGraphQLBuilder builder, System.Action<Newtonsoft.Json.JsonSerializerSettings> configureDeserializerSettings = null, System.Action<Newtonsoft.Json.JsonSerializerSettings> configureSerializerSettings = null) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddNewtonsoftJson(this GraphQL.Server.IGraphQLBuilder builder, System.Action<Newtonsoft.Json.JsonSerializerSettings> configureDeserializerSettings = null, System.Action<Newtonsoft.Json.JsonSerializerSettings> configureSerializerSettings = null) { }
     }
 }

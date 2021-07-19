@@ -24,7 +24,7 @@ namespace GraphQL.Server.Transports.AspNetCore.SystemTextJson
         public GraphQLRequestDeserializer(Action<JsonSerializerOptions> configure)
         {
             // Add converter that deserializes Variables property
-            _serializerOptions.Converters.Add(new ObjectDictionaryConverter());
+            _serializerOptions.Converters.Add(new InputsConverter());
 
             configure?.Invoke(_serializerOptions);
         }
@@ -117,8 +117,8 @@ namespace GraphQL.Server.Transports.AspNetCore.SystemTextJson
             {
                 OperationName = internalGraphQLRequest.OperationName,
                 Query = internalGraphQLRequest.Query,
-                Inputs = internalGraphQLRequest.Variables?.ToInputs(), // must return null if not provided, not an empty dictionary
-                Extensions = internalGraphQLRequest.Extensions?.ToInputs(), // must return null if not provided, not an empty dictionary
+                Inputs = internalGraphQLRequest.Variables, // must return null if not provided, not an empty dictionary
+                Extensions = internalGraphQLRequest.Extensions, // must return null if not provided, not an empty dictionary
             };
     }
 }

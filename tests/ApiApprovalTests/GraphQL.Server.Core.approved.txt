@@ -1,9 +1,18 @@
 namespace GraphQL.Server
 {
+    public class BasicGraphQLExecuter<TSchema> : GraphQL.Server.IGraphQLExecuter, GraphQL.Server.IGraphQLExecuter<TSchema>
+        where TSchema : GraphQL.Types.ISchema
+    {
+        public BasicGraphQLExecuter(TSchema schema, GraphQL.IDocumentExecuter documentExecuter, Microsoft.Extensions.Options.IOptions<GraphQL.Server.GraphQLOptions> options) { }
+        public TSchema Schema { get; }
+        public virtual System.Threading.Tasks.Task<GraphQL.ExecutionResult> ExecuteAsync(string operationName, string query, GraphQL.Inputs variables, System.Collections.Generic.IDictionary<string, object> context, System.IServiceProvider requestServices, System.Threading.CancellationToken cancellationToken = default) { }
+        protected virtual GraphQL.ExecutionOptions GetOptions(string operationName, string query, GraphQL.Inputs variables, System.Collections.Generic.IDictionary<string, object> context, System.IServiceProvider requestServices, System.Threading.CancellationToken cancellationToken) { }
+    }
     public class DefaultErrorInfoProvider : GraphQL.Execution.ErrorInfoProvider
     {
         public DefaultErrorInfoProvider(Microsoft.Extensions.Options.IOptions<GraphQL.Execution.ErrorInfoProviderOptions> options) { }
     }
+    [System.Obsolete]
     public class DefaultGraphQLExecuter<TSchema> : GraphQL.Server.IGraphQLExecuter, GraphQL.Server.IGraphQLExecuter<TSchema>
         where TSchema : GraphQL.Types.ISchema
     {
@@ -14,17 +23,28 @@ namespace GraphQL.Server
     }
     public static class GraphQLBuilderCoreExtensions
     {
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddDataLoader(this GraphQL.Server.IGraphQLBuilder builder) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddErrorInfoProvider(this GraphQL.Server.IGraphQLBuilder builder, System.Action<GraphQL.Execution.ErrorInfoProviderOptions> configureOptions) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddErrorInfoProvider(this GraphQL.Server.IGraphQLBuilder builder, System.Action<GraphQL.Execution.ErrorInfoProviderOptions, System.IServiceProvider> configureOptions) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddErrorInfoProvider<TErrorInfoProvider>(this GraphQL.Server.IGraphQLBuilder builder, System.Action<GraphQL.Execution.ErrorInfoProviderOptions> configureOptions)
             where TErrorInfoProvider : GraphQL.Server.DefaultErrorInfoProvider { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddErrorInfoProvider<TErrorInfoProvider>(this GraphQL.Server.IGraphQLBuilder builder, System.Action<GraphQL.Execution.ErrorInfoProviderOptions, System.IServiceProvider> configureOptions)
             where TErrorInfoProvider : GraphQL.Server.DefaultErrorInfoProvider { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddGraphTypes(this GraphQL.Server.IGraphQLBuilder builder, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = 0) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddGraphTypes(this GraphQL.Server.IGraphQLBuilder builder, System.Reflection.Assembly assembly, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = 0) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddGraphTypes(this GraphQL.Server.IGraphQLBuilder builder, System.Type typeFromAssembly, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = 0) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddRelayGraphTypes(this GraphQL.Server.IGraphQLBuilder builder) { }
+        public static GraphQL.DI.IGraphQLBuilder AddServer(this GraphQL.DI.IGraphQLBuilder builder, System.Action<GraphQL.Server.GraphQLOptions> configureOptions) { }
+        public static GraphQL.DI.IGraphQLBuilder AddServer(this GraphQL.DI.IGraphQLBuilder builder, System.Action<GraphQL.Server.GraphQLOptions, System.IServiceProvider> configureOptions = null) { }
     }
     public class GraphQLOptions
     {
@@ -46,6 +66,7 @@ namespace GraphQL.Server
         public string OperationName { get; set; }
         public string Query { get; set; }
     }
+    [System.Obsolete]
     public interface IGraphQLBuilder
     {
         Microsoft.Extensions.DependencyInjection.IServiceCollection Services { get; }
@@ -64,8 +85,11 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddGraphQL(this Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddGraphQL(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<GraphQL.Server.GraphQLOptions> configureOptions) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddGraphQL(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<GraphQL.Server.GraphQLOptions, System.IServiceProvider> configureOptions) { }
     }
 }

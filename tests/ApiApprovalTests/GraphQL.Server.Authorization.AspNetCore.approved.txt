@@ -36,7 +36,11 @@ namespace GraphQL.Server
 {
     public static class GraphQLBuilderAuthorizationExtensions
     {
+        public static GraphQL.DI.IGraphQLBuilder AddGraphQLAuthorization(this GraphQL.DI.IGraphQLBuilder builder) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddGraphQLAuthorization(this GraphQL.Server.IGraphQLBuilder builder) { }
+        public static GraphQL.DI.IGraphQLBuilder AddGraphQLAuthorization(this GraphQL.DI.IGraphQLBuilder builder, System.Action<Microsoft.AspNetCore.Authorization.AuthorizationOptions> configure) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddGraphQLAuthorization(this GraphQL.Server.IGraphQLBuilder builder, System.Action<Microsoft.AspNetCore.Authorization.AuthorizationOptions> options) { }
     }
 }

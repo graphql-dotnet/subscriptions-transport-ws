@@ -2,6 +2,8 @@ namespace GraphQL.Server
 {
     public static class GraphQLBuilderWebSocketsExtensions
     {
+        public static GraphQL.DI.IGraphQLBuilder AddWebSockets(this GraphQL.DI.IGraphQLBuilder builder) { }
+        [System.Obsolete]
         public static GraphQL.Server.IGraphQLBuilder AddWebSockets(this GraphQL.Server.IGraphQLBuilder builder) { }
     }
 }
